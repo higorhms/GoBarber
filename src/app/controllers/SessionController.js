@@ -13,7 +13,7 @@ class SessionController {
             return res.status(401).json({ error: 'Please check your email' });
         }
 
-        if (!userExist.checkPassword(password)) {
+        if (!(await userExist.checkPassword(password))) {
             return res
                 .status(401)
                 .json({ error: 'Please check your password' });
