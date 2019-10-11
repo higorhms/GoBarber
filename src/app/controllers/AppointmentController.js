@@ -4,6 +4,9 @@ import User from '../models/User';
 
 class AppointmentController {
     async store(req, res) {
+        /**
+         * Yup validation, check if the request body has this itens, and require them
+         */
         const schema = Yup.object().shape({
             provider_id: Yup.number().required(),
             date: Yup.date().required(),
@@ -14,11 +17,9 @@ class AppointmentController {
         }
 
         /**
-         * Check if the user is provider
+         * Check if the user is provider------------------------------------------
          */
-
         const { provider_id, date } = req.body;
-        console.log(provider_id);
 
         const checkIsProvider = await User.findOne({
             where: { id: provider_id, provider: true },
@@ -30,6 +31,9 @@ class AppointmentController {
             });
         }
 
+        /**
+         * Creating a appointment  ------------------------------------------
+         */
         const appointment = await Appointment.create({
             user_id: req.userId,
             provider_id,

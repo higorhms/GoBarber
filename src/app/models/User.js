@@ -1,6 +1,9 @@
 import Sequelize, { Model } from 'sequelize';
 import bcrypt from 'bcryptjs';
 
+/**
+ * Model of User
+ */
 class User extends Model {
     static init(sequelize) {
         super.init(
@@ -23,10 +26,16 @@ class User extends Model {
         return this;
     }
 
+    /**
+     * Method associate all the models in src/database/INDEX.Js with others models in database
+     */
     static associate(models) {
         this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
     }
 
+    /**
+     * Method check if the request body password is the existing password of this user
+     */
     checkPassword(password) {
         return bcrypt.compare(password, this.password_hash);
     }

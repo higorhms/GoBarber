@@ -3,6 +3,10 @@ import path from 'path';
 import routes from './routes';
 import './database';
 
+/**
+ * Class app used to configure routes, and middlewares in express..
+ * also used in other classes to set the port of that the system is listening
+ */
 class App {
     constructor() {
         this.server = express();
@@ -11,6 +15,9 @@ class App {
         this.routes();
     }
 
+    /**
+     * middlewares of system
+     */
     middlewares() {
         this.server.use(express.json());
         this.server.use(
@@ -19,6 +26,9 @@ class App {
         );
     }
 
+    /**
+     * Routes of system
+     */
     routes() {
         this.server.use(routes);
     }

@@ -1,5 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
 
+/**
+ * Model of Appointment
+ */
 class Appointment extends Model {
     static init(sequelize) {
         super.init(
@@ -12,6 +15,9 @@ class Appointment extends Model {
         return this;
     }
 
+    /**
+     * Method associate all the models in src/database/INDEX.Js with others models in database
+     */
     static associate(models) {
         this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
         this.belongsTo(models.User, {

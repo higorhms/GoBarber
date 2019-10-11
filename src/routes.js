@@ -12,11 +12,20 @@ import AppointmentController from './app/controllers/AppointmentController';
 const routes = new Router();
 const upload = multer(multerConfig);
 
+/**
+ * routes that don't need to authentication
+ */
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
+/**
+ * Global middleware of authentication
+ */
 routes.use(authMiddleware);
 
+/**
+ * Routes that you have to be authenticated
+ */
 routes.put('/users', UserController.update);
 
 routes.post('/appointments', AppointmentController.store);
