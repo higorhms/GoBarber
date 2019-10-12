@@ -1,5 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
 
+/**
+ * Model of File (avatar fotographs)
+ */
 class File extends Model {
     static init(sequelize) {
         super.init(

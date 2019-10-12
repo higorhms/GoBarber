@@ -17,7 +17,7 @@ class AppointmentController {
         }
 
         /**
-         * Check if the user is provider------------------------------------------
+         * Check if the user is provider
          */
         const { provider_id, date } = req.body;
 
@@ -32,7 +32,7 @@ class AppointmentController {
         }
 
         /**
-         * Creating a appointment  ------------------------------------------
+         * Creating a appointment
          */
         const appointment = await Appointment.create({
             user_id: req.userId,

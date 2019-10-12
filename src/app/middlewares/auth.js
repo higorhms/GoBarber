@@ -3,6 +3,9 @@ import { promisify } from 'util';
 import jwt from 'jsonwebtoken';
 import authConfig from '../../config/auth';
 
+/**
+ * Middleware of authentication, here is checked if the header of the requisition has a token
+ */
 export default async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
