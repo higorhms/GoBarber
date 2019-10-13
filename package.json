@@ -14,10 +14,12 @@
     "bcryptjs": "^2.4.3",
     "date-fns": "^2.4.1",
     "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.4",
     "multer": "^1.4.2",
     "nodemailer": "^6.3.1",
+    "nodemailer-express-handlebars": "^3.1.0",
     "sequelize": "^5.19.4",
     "yup": "^0.27.0"
   },
