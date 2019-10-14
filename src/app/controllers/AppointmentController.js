@@ -6,7 +6,8 @@ import Appointment from '../models/Appointment';
 import User from '../models/User';
 import File from '../models/File';
 import Notification from '../schemas/Notification';
-import Mail from '../lib/Mail';
+import Queue from '../../lib/Queue';
+import CancellationMail from '../jobs/CancellationMail';
 
 class AppointmentController {
     /**
@@ -167,20 +168,10 @@ class AppointmentController {
         await appointment.save();
 
         /**
-         * Send email for providers
+         * Add the background job in queue for send email to providers
          */
-        await Mail.sendEmail({
-            to: `${appointment.provider.name} <${appointment.provider.email}>`,
-            subject: 'Agendamento Cancelado',
-            // text: 'VoCẽ tem um novo cancelamento',
-            template: 'cancellation',
-            context: {
-                provider: appointment.provider.name,
-                user: appointment.user.name,
-                date: format(appointment.date, "dd 'de ' MMMM 'às' H:mm'h'", {
-                    locale: pt,
-                }),
-            },
+        await Queue.add(CancellationMail.key, {
+            appointment,
         });
 
         res.json(appointment);
