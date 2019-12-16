@@ -2,13 +2,15 @@ import 'dotenv/config';
 
 import express from 'express';
 import path from 'path';
+import cors from 'cors';
 import Youch from 'youch';
 import * as Sentry from '@sentry/node';
-import sentryConfig from './config/sentry';
 import 'express-async-errors';
-import './database';
-import routes from './routes';
 
+import routes from './routes';
+import sentryConfig from './config/sentry';
+
+import './database';
 /**
  * Class app used to configure routes, and middlewares in express..
  * also used in other classes to set the port of that the system is listening
@@ -29,6 +31,7 @@ class App {
      */
     middlewares() {
         this.server.use(Sentry.Handlers.requestHandler());
+        this.server.use(cors());
         this.server.use(express.json());
         this.server.use(
             '/files',
