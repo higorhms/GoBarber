@@ -26,6 +26,13 @@ class ScheduleController {
                     ],
                 },
             },
+            include: [
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: ['name'],
+                },
+            ],
         });
 
         return res.json(appointments);
