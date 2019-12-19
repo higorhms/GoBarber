@@ -32,6 +32,15 @@ export const Content = styled.div`
             }
         }
 
+        span {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            color: #953249;
+            font-weight: bold;
+        }
+
         button {
             margin: 5px 0 0;
             background: #3b9eff;
