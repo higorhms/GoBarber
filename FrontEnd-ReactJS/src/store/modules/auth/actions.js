@@ -11,3 +11,9 @@ export function signInSucess(token, user) {
         payload: { token, user },
     };
 }
+
+export function signFailure() {
+    return {
+        type: '@auth/SIGN_FAILURE',
+    };
+}
