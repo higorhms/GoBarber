@@ -6,13 +6,22 @@ import * as UserActions from './actions';
 
 export function* updateProfile({ payload }) {
     try {
-        const { name, email, ...rest } = payload.data;
-        const profile = { name, email, ...(rest.oldPassword ? rest : {}) };
+        const { name, email, avatar_id, ...rest } = payload.data;
 
-        yield call(api.put, 'users', profile);
+        // eslint-disable-next-line prefer-object-spread
+        const profile = Object.assign(
+            {
+                name,
+                email,
+                avatar_id,
+            },
+            rest.oldPassword ? rest : {}
+        );
+
+        const response = yield call(api.put, 'users', profile);
 
         toast.success('Usuario atualizado com sucesso');
-        yield put(UserActions.updateProfileSucess(profile));
+        yield put(UserActions.updateProfileSucess(response.data));
     } catch (error) {
         toast.error('Ocorreu um erro ao atualizar o usuario');
         yield put(UserActions.updateProfileFailure());
