@@ -13,7 +13,7 @@ import {
 import Background from '~/components/Background';
 import logo from '~/assets/logo.png';
 
-export default function SignIn() {
+export default function SignIn({ navigation }) {
     return (
         <Background>
             <Container>
@@ -25,18 +25,18 @@ export default function SignIn() {
                         keyboardType="email-adress"
                         autoCorrect={false}
                         autoCapitalize="none"
-                        placeholder="Type your email"
+                        placeholder="E-mail"
                     />
 
                     <FormInput
                         icon="lock-outline"
                         secureTextEntry
-                        placeholder="Type your email"
+                        placeholder="Password"
                     />
                     <SubmitButton onPress={() => {}}>Login</SubmitButton>
                 </Form>
 
-                <SignLink onPress={() => {}}>
+                <SignLink onPress={() => navigation.navigate('SignUp')}>
                     <SignLinkText>Create a account</SignLinkText>
                 </SignLink>
             </Container>
