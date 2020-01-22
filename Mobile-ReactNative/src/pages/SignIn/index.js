@@ -38,7 +38,7 @@ export default function SignIn({ navigation }) {
                         icon="lock-outline"
                         secureTextEntry
                         placeholder="Password"
-                        returnKeyType="nexsendt"
+                        returnKeyType="send"
                         onSubmitEditing={handleSubmit}
                         ref={passwordRef}
                     />
