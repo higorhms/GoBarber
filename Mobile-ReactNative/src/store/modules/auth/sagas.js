@@ -1,5 +1,5 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { Alert } from 'react-native';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import api from '~/services/api';
 import * as AuthActions from './actions';
@@ -24,7 +24,7 @@ export function* signIn({ payload }) {
 
         // history.push('/dashboard');
     } catch (error) {
-        Alert('Autentication fail, please check your email and password.');
+        // Alert('Autentication fail, please check your email and password.');
         yield put(AuthActions.signFailure());
     }
 }
@@ -33,15 +33,15 @@ export function* signUp({ payload }) {
     try {
         const { name, email, password } = payload;
 
+        console.tron.log('estou chamando a api');
         yield call(api.post, 'users', {
             name,
             email,
             password,
-            provider: true,
         });
 
         // history.push('/');
-        Alert('Account created with sucess');
+        // Alert('Account created with sucess');
     } catch (error) {
         Alert('Please check your informations and try again.');
         yield put(AuthActions.signFailure());
@@ -62,7 +62,7 @@ export function signOut() {
 
 export default all([
     takeLatest('persist/REHYDRATE', setToken),
-    takeLatest('@auth/SIGN_IN_REQUEST', signIn),
     takeLatest('@auth/SIGN_UP_REQUEST', signUp),
+    takeLatest('@auth/SIGN_IN_REQUEST', signIn),
     takeLatest('@auth/SIGN_OUT', signOut),
 ]);

@@ -36,7 +36,6 @@ target 'gobarbermobile' do
 
 
 
-  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
   target 'gobarbermobileTests' do
     inherit! :search_paths

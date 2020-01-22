@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { TextInput } from 'react-native';
 
 export const Container = styled.View`
     flex-direction: row;
@@ -9,7 +10,7 @@ export const Container = styled.View`
     padding: 0 15px;
 `;
 
-export const TInput = styled.TextInput.attrs({
+export const TInput = styled(TextInput).attrs({
     placeholderTextColor: 'rgba(255,255,255,0.3)',
 })`
     flex: 1;
