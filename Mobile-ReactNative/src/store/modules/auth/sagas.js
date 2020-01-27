@@ -1,4 +1,4 @@
-import { Alert } from 'react-native';
+// import { Alert } from 'react-native';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import api from '~/services/api';
@@ -43,7 +43,7 @@ export function* signUp({ payload }) {
         // history.push('/');
         // Alert('Account created with sucess');
     } catch (error) {
-        Alert('Please check your informations and try again.');
+        // Alert('Please check your informations and try again.');
         yield put(AuthActions.signFailure());
     }
 }
