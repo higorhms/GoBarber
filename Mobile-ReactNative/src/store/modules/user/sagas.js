@@ -1,4 +1,5 @@
 import { all, takeLatest, call, put } from 'redux-saga/effects';
+import { Alert } from 'react-native';
 
 import api from '~/services/api';
 import * as UserActions from './actions';
@@ -15,8 +16,10 @@ export function* updateProfile({ payload }) {
 
         const response = yield call(api.put, 'users', profile);
 
+        Alert.alert('User updated successfully');
         yield put(UserActions.updateProfileSucess(response.data));
     } catch (error) {
+        Alert.alert('Something went wrong, please try again.');
         yield put(UserActions.updateProfileFailure());
     }
 }

@@ -1,6 +1,7 @@
 // import { Alert } from 'react-native';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
+import { Alert } from 'react-native';
 import api from '~/services/api';
 import * as AuthActions from './actions';
 
@@ -21,10 +22,10 @@ export function* signIn({ payload }) {
         api.defaults.headers.Authorization = `Barear ${token}`;
 
         yield put(AuthActions.signInSucess(token, user));
-
-        // history.push('/dashboard');
     } catch (error) {
-        // Alert('Autentication fail, please check your email and password.');
+        Alert.alert(
+            'Autentication fail, please check your email and password.'
+        );
         yield put(AuthActions.signFailure());
     }
 }
@@ -33,17 +34,15 @@ export function* signUp({ payload }) {
     try {
         const { name, email, password } = payload;
 
-        console.tron.log('estou chamando a api');
         yield call(api.post, 'users', {
             name,
             email,
             password,
         });
 
-        // history.push('/');
-        // Alert('Account created with sucess');
+        Alert.alert('Account created sucessfuly');
     } catch (error) {
-        // Alert('Please check your informations and try again.');
+        Alert.alert('Please check your informations and try again.');
         yield put(AuthActions.signFailure());
     }
 }
