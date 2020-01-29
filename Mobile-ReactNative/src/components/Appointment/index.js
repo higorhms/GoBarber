@@ -6,6 +6,7 @@ import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Container, Left, Avatar, Info, Name, Time } from './styles';
+import { apiUrl } from '~/config/constants';
 
 export default function Appointment({ data, onCancel }) {
     const dateParsed = useMemo(() => {
@@ -15,13 +16,15 @@ export default function Appointment({ data, onCancel }) {
         });
     }, [data.date]);
 
+    console.tron.log(data);
+
     return (
         <Container past={data.past}>
             <Left>
                 <Avatar
                     source={{
                         uri: data.provider.avatar
-                            ? data.provider.avatar.url
+                            ? `${apiUrl}/files/${data.provider.avatar.path}`
                             : `https://api.adorable.io/avatars/50/${data.provider.name}.png`,
                     }}
                 />

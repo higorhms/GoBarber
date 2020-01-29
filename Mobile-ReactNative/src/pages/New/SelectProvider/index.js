@@ -5,6 +5,7 @@ import { Container, ProvidersList, Provider, Avatar, Name } from './styles';
 
 import api from '~/services/api';
 import Background from '~/components/Background';
+import { apiUrl } from '~/config/constants';
 
 export default function SelectProvider({ navigation }) {
     const [providers, setProviders] = useState([]);
@@ -33,10 +34,9 @@ export default function SelectProvider({ navigation }) {
                         >
                             <Avatar
                                 source={{
-                                    uri:
-                                        (provider.avatar &&
-                                            provider.avatar.url) ||
-                                        `https://api.adorable.io/avatars/50/${provider.name}.png`,
+                                    uri: provider.avatar
+                                        ? `${apiUrl}/files/${provider.avatar.path}`
+                                        : `https://api.adorable.io/avatars/50/${provider.name}.png`,
                                 }}
                             />
                             <Name>{provider.name}</Name>

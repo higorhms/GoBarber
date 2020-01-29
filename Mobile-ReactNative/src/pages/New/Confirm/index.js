@@ -8,6 +8,7 @@ import Background from '~/components/Background';
 
 import { Container, Avatar, Name, Time, SubmitButton } from './styles';
 import api from '~/services/api';
+import { apiUrl } from '~/config/constants';
 
 export default function Confirm({ navigation }) {
     const provider = navigation.getParam('provider');
@@ -32,12 +33,11 @@ export default function Confirm({ navigation }) {
             <Container>
                 <Avatar
                     source={{
-                        uri:
-                            (provider.avatar && provider.avatar.url) ||
-                            `https://api.adorable.io/avatars/50/${provider.name}.png`,
+                        uri: provider.avatar
+                            ? `${apiUrl}/files/${provider.avatar.path}`
+                            : `https://api.adorable.io/avatars/50/${provider.name}.png`,
                     }}
                 />
-
                 <Name>{provider.name}</Name>
                 <Time>{dateFormatted}</Time>
                 <SubmitButton onPress={handleAddAppointment}>
