@@ -3,9 +3,13 @@ import appoitmentRoutes from './appointments.routes';
 import usersRouter from './user.routes';
 import sessionsRouter from './sessions.routes';
 
+import authMiddleware from '../middlewares/authMiddleware';
+
 const routes = Router();
 
 routes.use('/sessions', sessionsRouter);
+
+routes.use(authMiddleware);
 
 routes.use('/appointments', appoitmentRoutes);
 routes.use('/users', usersRouter);
