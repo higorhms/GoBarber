@@ -1,6 +1,8 @@
 import express from 'express';
 import routes from './routes';
 
+import './database/index';
+
 const server = express();
 
 server.use(express.json());
