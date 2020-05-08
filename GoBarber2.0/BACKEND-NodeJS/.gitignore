@@ -3,6 +3,8 @@
 # dependencies
 /node_modules
 /.pnp
+tmp/*
+!tmp/.gitkeep
 .pnp.js
 
 # testing
