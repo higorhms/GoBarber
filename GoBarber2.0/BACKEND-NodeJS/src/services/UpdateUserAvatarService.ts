@@ -4,6 +4,7 @@ import path from 'path';
 
 import User from '../models/User';
 import multerConfig from '../config/multerConfig';
+import AppError from '../errors/AppError';
 
 interface RequestDTO {
   user_id: string;
@@ -17,7 +18,7 @@ class UpdateUserAvatarService {
     const user = await userRepository.findOne(user_id);
 
     if (!user) {
-      throw Error('Only authenticated users can change avatars');
+      throw new AppError('Only authenticated users can change avatars');
     }
 
     if (user.avatar) {

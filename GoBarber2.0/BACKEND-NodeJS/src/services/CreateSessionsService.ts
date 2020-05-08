@@ -4,6 +4,7 @@ import { sign } from 'jsonwebtoken';
 
 import User from '../models/User';
 import authConfig from '../config/auth';
+import AppError from '../errors/AppError';
 
 interface RequestDTO {
   email: string;
@@ -22,13 +23,13 @@ class CreateSessionsService {
     const user = await userRepository.findOne({ where: { email } });
 
     if (!user) {
-      throw Error('Please check your email and password');
+      throw new AppError('Please check your email and password', 401);
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw Error('Please check your email and password');
+      throw new AppError('Please check your email and password', 401);
     }
 
     delete user.password;
