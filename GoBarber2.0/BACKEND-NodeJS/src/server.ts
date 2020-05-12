@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import express from 'express';
+import cors from 'cors';
 import 'express-async-errors';
 
 import routes from './routes';
@@ -10,6 +11,7 @@ import globalErrorsHandlerMiddleware from './middlewares/GlobalErrorsHandlerMidd
 
 const server = express();
 
+server.use(cors());
 server.use(express.json());
 server.use('/files', express.static(multerConfig.directory));
 server.use(routes);
