@@ -2,10 +2,13 @@ import { Router, Request, Response } from 'express';
 import { parseISO } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 
+import authMiddleware from '../middlewares/authMiddleware';
 import AppointmentsRepository from '../repositories/AppoitmentsRepository';
 import CreateAppointmentService from '../services/CreateAppointmentService';
 
 const appointmentRoutes = Router();
+
+appointmentRoutes.use(authMiddleware);
 
 appointmentRoutes.get('/', async (request: Request, response: Response) => {
   const appointmentsRepository = getCustomRepository(AppointmentsRepository);
