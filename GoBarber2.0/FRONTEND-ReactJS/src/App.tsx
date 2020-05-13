@@ -8,14 +8,12 @@ import GlobalStyle from './styles/global';
 
 const App: React.FC = () => {
   return (
-    <>
+    <BrowserRouter>
       <AppProvider>
-        <BrowserRouter>
-          <Routes />
-        </BrowserRouter>
+        <Routes />
       </AppProvider>
       <GlobalStyle />
-    </>
+    </BrowserRouter>
   );
 };
 

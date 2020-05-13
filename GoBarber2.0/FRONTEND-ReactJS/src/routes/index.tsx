@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 
-const routes: React.FC = () => {
+const Routes: React.FC = () => {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
@@ -13,4 +13,4 @@ const routes: React.FC = () => {
   );
 };
 
-export default routes;
+export default Routes;
