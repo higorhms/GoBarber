@@ -3,11 +3,11 @@ import express from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 
-import routes from './routes';
+import routes from '@shared/infra/http/routes/index';
 
-import './database/index';
-import multerConfig from './config/multerConfig';
-import globalErrorsHandlerMiddleware from './middlewares/GlobalErrorsHandlerMiddleware';
+import '../typeorm/index';
+import globalErrorsHandlerMiddleware from '@shared/infra/http/middlewares/GlobalErrorsHandlerMiddleware';
+import multerConfig from '@config/multerConfig';
 
 const server = express();
 
