@@ -6,7 +6,6 @@ import authMiddleware from '@modules/users/infra/http/middlewares/authMiddleware
 import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/AppoitmentsRepository';
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 
-const appointmentsRepository = new AppointmentsRepository();
 const appointmentRoutes = Router();
 
 appointmentRoutes.use(authMiddleware);
@@ -17,6 +16,8 @@ appointmentRoutes.use(authMiddleware);
 // });
 
 appointmentRoutes.post('/', async (request: Request, response: Response) => {
+  const appointmentsRepository = new AppointmentsRepository();
+
   const { provider_id, date } = request.body;
 
   const parsedDate = parseISO(date);
