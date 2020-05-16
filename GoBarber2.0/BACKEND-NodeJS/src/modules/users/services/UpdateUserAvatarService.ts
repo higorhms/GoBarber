@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { inject, injectable } from 'tsyringe';
 
 import multerConfig from '@config/multerConfig';
 import AppError from '@shared/errors/AppError';
@@ -10,13 +11,12 @@ interface IRequestDTO {
   user_id: string;
   fileName: string;
 }
-
+@injectable()
 class UpdateUserAvatarService {
-  private usersRepository: IUsersRepository;
-
-  constructor(repository: IUsersRepository) {
-    this.usersRepository = repository;
-  }
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
   public async execute({ user_id, fileName }: IRequestDTO): Promise<User> {
     const user = await this.usersRepository.findById(user_id);

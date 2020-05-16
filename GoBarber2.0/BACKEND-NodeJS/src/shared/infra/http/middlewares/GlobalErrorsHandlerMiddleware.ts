@@ -12,6 +12,7 @@ const globalErrorsHandler = (
       .status(error.statusCode)
       .json({ status: 'error', message: error.message });
   }
+  console.log(error);
 
   return response
     .status(500)

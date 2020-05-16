@@ -4,6 +4,7 @@ import cors from 'cors';
 import 'express-async-errors';
 
 import routes from '@shared/infra/http/routes/index';
+import '@shared/container';
 import '../typeorm/index';
 
 import globalErrorsHandlerMiddleware from '@shared/infra/http/middlewares/GlobalErrorsHandlerMiddleware';
