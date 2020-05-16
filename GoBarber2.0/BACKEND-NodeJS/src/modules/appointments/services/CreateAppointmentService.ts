@@ -1,24 +1,24 @@
 import { startOfHour } from 'date-fns';
-import { getCustomRepository } from 'typeorm';
 
 import AppError from '@shared/errors/AppError';
 import Appointment from '../infra/typeorm/entities/Appointment';
-import AppointmentsRepository from '../repositories/AppoitmentsRepository';
+import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
-interface RequestDTO {
+interface IRequestDTO {
   provider_id: string;
   date: Date;
 }
 
 class CreateAppointmentService {
+  constructor(private appointmentsRepository: IAppointmentsRepository) {}
+
   public async execute({
     provider_id,
     date,
-  }: RequestDTO): Promise<Appointment> {
+  }: IRequestDTO): Promise<Appointment> {
     const dateFormatted = startOfHour(date);
-    const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
-    const findAppoitmentInSameDate = await appointmentsRepository.findByDate(
+    const findAppoitmentInSameDate = await this.appointmentsRepository.findByDate(
       dateFormatted,
     );
 
@@ -26,14 +26,12 @@ class CreateAppointmentService {
       throw new AppError('This appointment was already booked', 401);
     }
 
-    const appointment = appointmentsRepository.create({
+    const appointment = await this.appointmentsRepository.create({
       provider_id,
       date: dateFormatted,
     });
 
-    const createdAppointment = appointmentsRepository.save(appointment);
-
-    return createdAppointment;
+    return appointment;
   }
 }
 
