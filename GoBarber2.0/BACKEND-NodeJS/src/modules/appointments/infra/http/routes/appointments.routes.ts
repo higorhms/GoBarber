@@ -17,7 +17,7 @@ appointmentRoutes.use(authMiddleware);
 // });
 
 appointmentRoutes.post('/', async (request: Request, response: Response) => {
-  const { provider, date } = request.body;
+  const { provider_id, date } = request.body;
 
   const parsedDate = parseISO(date);
 
@@ -26,7 +26,7 @@ appointmentRoutes.post('/', async (request: Request, response: Response) => {
   );
 
   const appointment = await createAppointmentService.execute({
-    provider,
+    provider_id,
     date: parsedDate,
   });
 

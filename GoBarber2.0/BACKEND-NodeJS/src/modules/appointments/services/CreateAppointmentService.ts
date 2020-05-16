@@ -3,19 +3,19 @@ import { startOfHour } from 'date-fns';
 import AppError from '@shared/errors/AppError';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
-
-interface IRequestDTO {
-  provider_id: string;
-  date: Date;
-}
+import ICreateAppointmentDTO from '../dtos/ICreateAppointmentDTO';
 
 class CreateAppointmentService {
-  constructor(private appointmentsRepository: IAppointmentsRepository) {}
+  private appointmentsRepository: IAppointmentsRepository;
+
+  constructor(repository: IAppointmentsRepository) {
+    this.appointmentsRepository = repository;
+  }
 
   public async execute({
     provider_id,
     date,
-  }: IRequestDTO): Promise<Appointment> {
+  }: ICreateAppointmentDTO): Promise<Appointment> {
     const dateFormatted = startOfHour(date);
 
     const findAppoitmentInSameDate = await this.appointmentsRepository.findByDate(
