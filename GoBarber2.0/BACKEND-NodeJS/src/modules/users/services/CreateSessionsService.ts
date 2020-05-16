@@ -3,18 +3,11 @@ import { sign } from 'jsonwebtoken';
 
 import authConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
-import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
-
-interface IRequestDTO {
-  email: string;
-  password: string;
-}
-
-interface IResponseDTO {
-  user: User;
-  token: string;
-}
+import {
+  ICreateSessionRequestDTO,
+  ICreateSessionResponseDTO,
+} from '../dtos/ISessionsDTO';
 
 class CreateSessionsService {
   private usersRepository: IUsersRepository;
@@ -26,7 +19,7 @@ class CreateSessionsService {
   public async execute({
     email,
     password,
-  }: IRequestDTO): Promise<IResponseDTO> {
+  }: ICreateSessionRequestDTO): Promise<ICreateSessionResponseDTO> {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
