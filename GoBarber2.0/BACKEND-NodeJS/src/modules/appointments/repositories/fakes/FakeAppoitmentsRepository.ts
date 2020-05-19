@@ -2,6 +2,7 @@ import { uuid } from 'uuidv4';
 
 import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
+import { isEqual } from 'date-fns';
 import IAppointmentsRepository from '../IAppointmentsRepository';
 
 class AppointmentsRepository implements IAppointmentsRepository {
@@ -13,17 +14,19 @@ class AppointmentsRepository implements IAppointmentsRepository {
   }: ICreateAppointmentDTO): Promise<Appointment> {
     const appointment = new Appointment();
 
-    Object.assign(appointment, { id: uuid(), provider_id, date });
+    Object.assign(appointment, { id: uuid(), date, provider_id });
+
+    this.appointments.push(appointment);
 
     return appointment;
   }
 
   public async findByDate(date: Date): Promise<Appointment | undefined> {
-    const appointment = this.appointments.find(
-      appoint => appoint.date === date,
+    const findAppointment = this.appointments.find(appointment =>
+      isEqual(appointment.date, date),
     );
 
-    return appointment;
+    return findAppointment;
   }
 
   public async findAll(): Promise<Appointment[]> {
