@@ -1,13 +1,13 @@
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
-import CreateSessionsService from './AuthenticateUserService';
+import AuthenticateUserService from './AuthenticateUserService';
 import CreateUsersService from './CreateUsersService';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
-describe('CreateUser', () => {
+describe('AuthenticateUser', () => {
   it('should be able to authenticate', async () => {
     const fakeHashProvider = new FakeHashProvider();
     const usersRepository = new FakeUsersRepository();
-    const sessionsService = new CreateSessionsService(
+    const authenticateUser = new AuthenticateUserService(
       usersRepository,
       fakeHashProvider,
     );
@@ -22,7 +22,7 @@ describe('CreateUser', () => {
       password: '123456',
     });
 
-    const response = await sessionsService.execute({
+    const response = await authenticateUser.execute({
       email: 'johndoe@johndoe.com',
       password: '123456',
     });
