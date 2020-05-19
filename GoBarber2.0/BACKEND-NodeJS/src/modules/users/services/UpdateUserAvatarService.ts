@@ -1,24 +1,28 @@
-import fs from 'fs';
-import path from 'path';
 import { inject, injectable } from 'tsyringe';
 
-import multerConfig from '@config/multerConfig';
 import AppError from '@shared/errors/AppError';
 import User from '@modules/users/infra/typeorm/entities/User';
+import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
 
 interface IRequestDTO {
   user_id: string;
-  fileName: string;
+  avatarFileName: string;
 }
 @injectable()
 class UpdateUserAvatarService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('StorageProvider')
+    private storageProvider: IStorageProvider,
   ) {}
 
-  public async execute({ user_id, fileName }: IRequestDTO): Promise<User> {
+  public async execute({
+    user_id,
+    avatarFileName,
+  }: IRequestDTO): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
@@ -26,13 +30,10 @@ class UpdateUserAvatarService {
     }
 
     if (user.avatar) {
-      const userAvatarPath = path.join(multerConfig.directory, user.avatar);
-      const userAvatarPathExist = fs.promises.stat(userAvatarPath);
-
-      if (userAvatarPathExist) {
-        fs.promises.unlink(userAvatarPath);
-      }
+      await this.storageProvider.deleteFile(user.avatar);
     }
+
+    const fileName = await this.storageProvider.saveFile(avatarFileName);
 
     user.avatar = fileName;
 
