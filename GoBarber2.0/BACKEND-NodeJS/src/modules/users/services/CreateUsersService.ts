@@ -7,7 +7,7 @@ import ICreateUserDTO from '../dtos/ICreateUserDTO';
 import IUsersRepository from '../repositories/IUsersRepository';
 
 @injectable()
-class CreateUserService {
+class CreateUsersService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -36,4 +36,4 @@ class CreateUserService {
   }
 }
 
-export default CreateUserService;
+export default CreateUsersService;
