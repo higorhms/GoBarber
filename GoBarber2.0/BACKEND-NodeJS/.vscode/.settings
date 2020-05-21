@@ -1,61 +1,83 @@
 {
-    "workbench.iconTheme": "material-icon-theme",
-    // "editor.codeActionsOnSave": {
-    //     "source.fixAll": true
-    // },
-    "git.enableSmartCommit": true,
-    "javascript.updateImportsOnFileMove.enabled": "always",
+  "terminal.integrated.fontSize": 14,
 
-    // Configurações da fonte
-    "editor.fontSize": 16,
-    "editor.lineHeight": 24,
-    "editor.tabSize": 2,
-    "editor.fontFamily": "Fira Code",
-    "editor.fontLigatures": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.startupEditor": "newUntitledFile",
 
-    "[javascript]": {
-        "editor.codeActionsOnSave": {
-            "source.fixAll": true,
-            "source.fixAll.eslint": true
-        }
-    },
-    "[javascriptreact]": {
-        "editor.codeActionsOnSave": {
-            "source.fixAll": true,
-            "source.fixAll.eslint": true
-        }
-    },
-    "[typescript]": {
-        "editor.codeActionsOnSave": {
-            "source.fixAll": true,
-            "source.fixAll.eslint": true
-        }
-    },
-    "[typescriptreact]": {
-        "editor.codeActionsOnSave": {
-            "source.fixAll": true,
-            "source.fixAll.eslint": true
-        }
-    },
-    "workbench.colorTheme": "Dracula Soft",
-    "typescript.updateImportsOnFileMove.enabled": "always",
+  "editor.tabSize": 2,
+  "editor.fontSize": 18,
+  "editor.lineHeight": 26,
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
 
-    "material-icon-theme.folders.associations": {
-        "infra": "app",
-        "entities": "class",
-        "schemas": "class",
-        "typeorm": "database",
-        "repositories": "mappings",
-        "http": "container",
-        "migrations": "tools",
-        "modules": "components",
-        "implementations": "core",
-        "dtos": "typescript",
-        "fakes": "mock",
-    },
+  "explorer.compactFolders": false,
+  "editor.renderLineHighlight": "gutter",
+  "workbench.editor.labelFormat": "short",
+  "extensions.ignoreRecommendations": true,
 
-    "material-icon-theme.files.associations": {
-        "ormconfig.json": "database",
-        "tsconfig.json": "tune"
-    }
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "never",
+
+  "breadcrumbs.enabled": true,
+  "editor.parameterHints.enabled": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+
+  "editor.rulers": [80, 120],
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+
+  "files.associations": {
+    ".sequelizerc": "javascript",
+    ".stylelintrc": "json",
+    ".prettierrc": "json"
+  },
+
+  "window.zoomLevel": 0,
+
+  "emmet.syntaxProfiles": { "javascript": "jsx" },
+  "emmet.includeLanguages": { "javascript": "javascriptreact" },
+
+
+  "gitlens.codeLens.recentChange.enabled": false,
+  "gitlens.codeLens.authors.enabled": false,
+  "gitlens.codeLens.enabled": false,
+
+  "git.enableSmartCommit": true,
+  "terminal.integrated.shell.osx": "/bin/zsh",
+  "liveshare.featureSet": "insiders",
+
+  "typescript.tsserver.log": "verbose",
+  "javascript.suggest.autoImports": true,
+  "typescript.suggest.autoImports": true,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "material-icon-theme.activeIconPack": "nest",
+  "screencastMode.onlyKeyboardShortcuts": true,
+
+  "material-icon-theme.folders.associations": {
+    "infra": "app",
+    "entities": "class",
+    "schemas": "class",
+    "typeorm": "database",
+    "repositories": "mappings",
+    "http": "container",
+    "migrations": "tools",
+    "modules": "components",
+    "implementations": "core",
+    "dtos": "typescript",
+    "fakes": "mock",
+    "websockets": "pipe",
+    "protos": "pipe",
+    "grpc": "pipe"
+  },
+
+  "material-icon-theme.files.associations": {
+    "ormconfig.json": "database",
+    "tsconfig.json": "tune",
+    "*.proto": "3d"
+  },
+
+  "workbench.colorTheme": "Omni"
 }
