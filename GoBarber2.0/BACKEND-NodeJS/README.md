@@ -15,6 +15,7 @@
 
 **RN**
 
+-
 - O link enviado por email enviado por email para resetar senha deve expirar em 2 horas;
 - O usuário precisa confirmar a nova senha ao resetar sua senha;
 
