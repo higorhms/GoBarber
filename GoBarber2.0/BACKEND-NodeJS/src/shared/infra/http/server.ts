@@ -14,7 +14,7 @@ const server = express();
 
 server.use(cors());
 server.use(express.json());
-server.use('/files', express.static(multerConfig.directory));
+server.use('/files', express.static(multerConfig.uploadsFolder));
 server.use(routes);
 
 server.use(globalErrorsHandlerMiddleware);
