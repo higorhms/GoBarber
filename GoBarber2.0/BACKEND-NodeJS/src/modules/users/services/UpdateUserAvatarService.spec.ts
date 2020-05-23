@@ -5,22 +5,25 @@ import CreateUsersService from './CreateUsersService';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import UpdateUserAvatarService from './UpdateUserAvatarService';
 
+let fakeHashProvider: FakeHashProvider;
+let usersRepository: FakeUsersRepository;
+let usersService: CreateUsersService;
+let fakeStorageProvider: FakeStorageProvider;
+let updateAvatarService: UpdateUserAvatarService;
+
 describe('UpdateUserAvatar', () => {
+  beforeEach(() => {
+    fakeHashProvider = new FakeHashProvider();
+    usersRepository = new FakeUsersRepository();
+    fakeStorageProvider = new FakeStorageProvider();
+    usersService = new CreateUsersService(usersRepository, fakeHashProvider);
+  });
+  updateAvatarService = new UpdateUserAvatarService(
+    usersRepository,
+    fakeStorageProvider,
+  );
+
   it('should be able to update an avatar', async () => {
-    const fakeHashProvider = new FakeHashProvider();
-    const usersRepository = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
-    const usersService = new CreateUsersService(
-      usersRepository,
-      fakeHashProvider,
-    );
-
-    const updateAvatarService = new UpdateUserAvatarService(
-      usersRepository,
-      fakeStorageProvider,
-    );
-
     const user = await usersService.execute({
       name: 'johndoe',
       email: 'johndoe@johndoe.com',
@@ -32,18 +35,10 @@ describe('UpdateUserAvatar', () => {
       avatarFileName: 'avatar.jpg',
     });
 
-    expect(updatedUser.avatar === 'avatar.jpg');
+    await expect(updatedUser.avatar === 'avatar.jpg');
   });
 
   it('should be able to update avatar from unexisting user', async () => {
-    const usersRepository = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
-    const updateAvatarService = new UpdateUserAvatarService(
-      usersRepository,
-      fakeStorageProvider,
-    );
-
     await expect(
       updateAvatarService.execute({
         user_id: 'non-existing-user',
@@ -53,21 +48,7 @@ describe('UpdateUserAvatar', () => {
   });
 
   it('should delete old avatar when updating new one', async () => {
-    const fakeHashProvider = new FakeHashProvider();
-    const usersRepository = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
     const deleteFile = jest.spyOn(fakeStorageProvider, 'deleteFile');
-
-    const usersService = new CreateUsersService(
-      usersRepository,
-      fakeHashProvider,
-    );
-
-    const updateAvatarService = new UpdateUserAvatarService(
-      usersRepository,
-      fakeStorageProvider,
-    );
 
     const user = await usersService.execute({
       name: 'johndoe',
@@ -85,7 +66,7 @@ describe('UpdateUserAvatar', () => {
       avatarFileName: 'avatar2.jpg',
     });
 
-    expect(deleteFile).toHaveBeenCalledWith('avatar.jpg');
-    expect(user.avatar === 'avatar2.jpg');
+    await expect(deleteFile).toHaveBeenCalledWith('avatar.jpg');
+    await expect(user.avatar === 'avatar2.jpg');
   });
 });
