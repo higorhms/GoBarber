@@ -2,28 +2,36 @@ import FakeAppointmentsRepository from '../repositories/fakes/FakeAppoitmentsRep
 import ListAppointmentsService from './ListAppointmentsService';
 import CreateAppointmentService from './CreateAppointmentService';
 
-describe('ListAppointments', () => {
-  it('should be able to return all appointments', async () => {
-    const appointmentRepository = new FakeAppointmentsRepository();
-    const listAppointmentService = new ListAppointmentsService(
-      appointmentRepository,
-    );
-    const appointmentService = new CreateAppointmentService(
-      appointmentRepository,
-    );
+let appointmentRepository: FakeAppointmentsRepository;
+let listAppointmentService: ListAppointmentsService;
+let appointmentService: CreateAppointmentService;
 
-    await appointmentService.execute({
-      date: new Date(2020, 4, 12, 13),
-      provider_id: '123123',
+describe('ListAppointments', () => {
+  beforeEach(() => {
+    appointmentRepository = new FakeAppointmentsRepository();
+    listAppointmentService = new ListAppointmentsService(appointmentRepository);
+    appointmentService = new CreateAppointmentService(appointmentRepository);
+  });
+
+  it('should be able to return all appointments', async () => {
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+      return new Date(2020, 4, 10, 12).getTime();
     });
 
     await appointmentService.execute({
-      date: new Date(2020, 4, 11, 12),
-      provider_id: '111',
+      date: new Date(2020, 5, 12, 13),
+      user_id: 'user-id1',
+      provider_id: 'provider-id1',
+    });
+
+    await appointmentService.execute({
+      date: new Date(2020, 5, 10, 12),
+      user_id: '123111',
+      provider_id: '111221',
     });
 
     const appointments = await listAppointmentService.execute();
 
-    expect(appointments[1].provider_id).toBe('111');
+    expect(appointments[1].provider_id).toBe('111221');
   });
 });

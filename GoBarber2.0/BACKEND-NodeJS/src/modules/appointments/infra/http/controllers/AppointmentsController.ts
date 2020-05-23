@@ -8,6 +8,7 @@ import ListAppointmentsService from '@modules/appointments/services/ListAppointm
 class AppointmentsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { provider_id, date } = request.body;
+    const user_id = request.user.id;
 
     const parsedDate = parseISO(date);
 
@@ -17,13 +18,14 @@ class AppointmentsController {
 
     const appointment = await createAppointmentService.execute({
       provider_id,
+      user_id,
       date: parsedDate,
     });
 
     return response.json(appointment);
   }
 
-  public async index(request: Request, response: Response): Promise<Response> {
+  public async index(_: Request, response: Response): Promise<Response> {
     const appointmentsService = container.resolve(ListAppointmentsService);
 
     const appointments = await appointmentsService.execute();
