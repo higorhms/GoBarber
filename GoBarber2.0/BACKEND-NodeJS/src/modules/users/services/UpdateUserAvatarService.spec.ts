@@ -17,11 +17,11 @@ describe('UpdateUserAvatar', () => {
     usersRepository = new FakeUsersRepository();
     fakeStorageProvider = new FakeStorageProvider();
     usersService = new CreateUsersService(usersRepository, fakeHashProvider);
+    updateAvatarService = new UpdateUserAvatarService(
+      usersRepository,
+      fakeStorageProvider,
+    );
   });
-  updateAvatarService = new UpdateUserAvatarService(
-    usersRepository,
-    fakeStorageProvider,
-  );
 
   it('should be able to update an avatar', async () => {
     const user = await usersService.execute({
@@ -35,10 +35,10 @@ describe('UpdateUserAvatar', () => {
       avatarFileName: 'avatar.jpg',
     });
 
-    await expect(updatedUser.avatar === 'avatar.jpg');
+    expect(updatedUser.avatar === 'avatar.jpg');
   });
 
-  it('should be able to update avatar from unexisting user', async () => {
+  it('should not be able to update avatar from unexisting user', async () => {
     await expect(
       updateAvatarService.execute({
         user_id: 'non-existing-user',
@@ -66,7 +66,7 @@ describe('UpdateUserAvatar', () => {
       avatarFileName: 'avatar2.jpg',
     });
 
-    await expect(deleteFile).toHaveBeenCalledWith('avatar.jpg');
-    await expect(user.avatar === 'avatar2.jpg');
+    expect(deleteFile).toHaveBeenCalledWith('avatar.jpg');
+    expect(user.avatar === 'avatar2.jpg');
   });
 });
