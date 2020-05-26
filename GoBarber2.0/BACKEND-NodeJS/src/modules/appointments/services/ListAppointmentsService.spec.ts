@@ -1,3 +1,4 @@
+import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppoitmentsRepository';
 import ListAppointmentsService from './ListAppointmentsService';
 import CreateAppointmentService from './CreateAppointmentService';
@@ -5,12 +6,18 @@ import CreateAppointmentService from './CreateAppointmentService';
 let appointmentRepository: FakeAppointmentsRepository;
 let listAppointmentService: ListAppointmentsService;
 let appointmentService: CreateAppointmentService;
+let fakeNotificationsRepository: FakeNotificationsRepository;
 
 describe('ListAppointments', () => {
   beforeEach(() => {
     appointmentRepository = new FakeAppointmentsRepository();
+    fakeNotificationsRepository = new FakeNotificationsRepository();
+
     listAppointmentService = new ListAppointmentsService(appointmentRepository);
-    appointmentService = new CreateAppointmentService(appointmentRepository);
+    appointmentService = new CreateAppointmentService(
+      appointmentRepository,
+      fakeNotificationsRepository,
+    );
   });
 
   it('should be able to return all appointments', async () => {
