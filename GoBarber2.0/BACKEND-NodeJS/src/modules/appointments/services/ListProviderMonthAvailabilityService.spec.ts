@@ -1,59 +1,97 @@
-import { injectable, inject } from 'tsyringe';
-import { getDaysInMonth, getDate } from 'date-fns';
+import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppoitmentsRepository';
+import ListProviderMonthAvailabilityService from './ListProviderMonthAvailabilityService';
 
-import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
+let fakeAppointmentsRepository: FakeAppointmentsRepository;
+let listMonthAvailability: ListProviderMonthAvailabilityService;
 
-interface IRequest {
-  provider_id: string;
-  month: number;
-  year: number;
-}
-
-type IResponse = Array<{
-  day: number;
-  available: boolean;
-}>;
-
-@injectable()
-class ListProviderMonthAvailabilityService {
-  constructor(
-    @inject('AppointmentsRepository')
-    private appointmentsRepository: IAppointmentsRepository,
-  ) {}
-
-  public async execute({
-    provider_id,
-    month,
-    year,
-  }: IRequest): Promise<IResponse> {
-    const appointments = await this.appointmentsRepository.findAllInMonthFromProvider(
-      {
-        provider_id,
-        year,
-        month,
-      },
+describe('ListProviderMonthAvailability', () => {
+  beforeEach(() => {
+    fakeAppointmentsRepository = new FakeAppointmentsRepository();
+    listMonthAvailability = new ListProviderMonthAvailabilityService(
+      fakeAppointmentsRepository,
     );
+  });
 
-    const numberOfDaysInMonth = getDaysInMonth(new Date(year, month - 1));
-
-    const eachDayArray = Array.from(
-      { length: numberOfDaysInMonth },
-      (value, index) => index + 1,
-    );
-
-    const availability = eachDayArray.map(day => {
-      const appointmentsInDay = appointments.filter(appointment => {
-        return getDate(appointment.date) === day;
-      });
-
-      return {
-        day,
-        available: appointmentsInDay.length < 10,
-      };
+  it('should be able to list the month availability from provider', async () => {
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 20, 8, 0, 0),
     });
 
-    return availability;
-  }
-}
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 20, 9, 0, 0),
+    });
 
-export default ListProviderMonthAvailabilityService;
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 20, 10, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 20, 11, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 20, 12, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 20, 13, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 20, 14, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 20, 15, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 20, 16, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 20, 17, 0, 0),
+    });
+
+    await fakeAppointmentsRepository.create({
+      provider_id: 'provider',
+      user_id: 'user-id',
+      date: new Date(2020, 4, 22, 8, 0, 0),
+    });
+
+    const availability = await listMonthAvailability.execute({
+      provider_id: 'provider',
+      year: 2020,
+      month: 5,
+    });
+
+    expect(availability).toEqual(
+      expect.arrayContaining([
+        { day: 19, available: true },
+        { day: 20, available: false },
+        { day: 21, available: true },
+        { day: 22, available: true },
+      ]),
+    );
+  });
+});

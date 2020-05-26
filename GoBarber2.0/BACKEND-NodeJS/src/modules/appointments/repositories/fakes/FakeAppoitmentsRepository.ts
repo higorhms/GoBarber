@@ -8,7 +8,7 @@ import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInD
 
 import IAppointmentsRepository from '../IAppointmentsRepository';
 
-class AppointmentsRepository implements IAppointmentsRepository {
+class FakeAppointmentsRepository implements IAppointmentsRepository {
   private appointments: Appointment[] = [];
 
   public async create({
@@ -70,4 +70,4 @@ class AppointmentsRepository implements IAppointmentsRepository {
   }
 }
 
-export default AppointmentsRepository;
+export default FakeAppointmentsRepository;
