@@ -24,23 +24,30 @@ Nesta versão, foram aplicados padrões de arquitetura e boas práticas de progr
 
 ## ⚙ Tecnologias
   - **Back end**
-    - nodeJS
-    - express
-    - typescript
-    - typeorm
-    - postgres
-    - mongodb
-    - redis
-    - uuidv4
-    - date-fns
-    - multer
-    - celebrate/joi
-    - dotenv
-    - class-transformer
-    - jest/ts-jest
-    - rate-limiter-flexible
-    - Amazon SES
-    - Amazon S3
+  
+    - [NodeJS](https://nodejs.org/en/)
+    - [express](https://expressjs.com/pt-br/)
+    - [typescript](https://www.typescriptlang.org/)
+    - [typeorm](https://typeorm.io/)
+    
+    - **Databases**
+    - [postgres](https://www.postgresql.org/)
+    - [mongodb](https://www.mongodb.com/)
+    - [redis](https://redis.io/)
+    
+    - **Tests**
+    - [jest/ts-jest](https://jestjs.io/)
+    
+    - **Tools**
+    - [uuidv4](https://www.npmjs.com/package/uuidv4)
+    - [date-fns](https://date-fns.org/)
+    - [multer](https://www.npmjs.com/package/multer)
+    - [celebrate/joi]()
+    - [dotenv]()
+    - [class-transformer]()
+    - [rate-limiter-flexible]()
+    - [Amazon SES]()
+    - [Amazon S3]()
 
   - **Front end**
     - react
