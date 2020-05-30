@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
 import 'express-async-errors';
+import { errors } from 'celebrate';
 
 import routes from '@shared/infra/http/routes/index';
 import '@shared/container';
@@ -16,6 +17,7 @@ server.use(cors());
 server.use(express.json());
 server.use('/files', express.static(multerConfig.uploadsFolder));
 server.use(routes);
+server.use(errors());
 
 server.use(globalErrorsHandlerMiddleware);
 
