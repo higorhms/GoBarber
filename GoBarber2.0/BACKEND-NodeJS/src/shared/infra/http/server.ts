@@ -10,7 +10,7 @@ import '@shared/container';
 import '../typeorm/index';
 
 import globalErrorsHandlerMiddleware from '@shared/infra/http/middlewares/GlobalErrorsHandlerMiddleware';
-import multerConfig from '@config/multerConfig';
+import multerConfig from '@config/upload';
 
 const server = express();
 

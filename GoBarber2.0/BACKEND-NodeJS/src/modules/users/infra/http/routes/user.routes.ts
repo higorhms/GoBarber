@@ -3,13 +3,13 @@ import { Router } from 'express';
 import multer from 'multer';
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import multerConfig from '@config/multerConfig';
+import uploadConfig from '@config/upload';
 import authMiddleware from '../middlewares/authMiddleware';
 import UsersController from '../controllers/UsersController';
 import UserAvatarController from '../controllers/UserAvatarController';
 
 const usersRouter = Router();
-const upload = multer(multerConfig);
+const upload = multer(uploadConfig.multer);
 
 usersRouter.post(
   '/',
