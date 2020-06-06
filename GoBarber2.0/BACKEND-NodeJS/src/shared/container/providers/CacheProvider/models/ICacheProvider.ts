@@ -1,5 +1,5 @@
 export default interface ICacheProvier {
-  save(key: string, value: string): Promise<void>;
-  recover(key: string): Promise<string | null>;
+  save(key: string, value: any): Promise<void>;
+  recover<T>(key: string): Promise<T | null>;
   invalidade(key: string): Promise<void>;
 }
