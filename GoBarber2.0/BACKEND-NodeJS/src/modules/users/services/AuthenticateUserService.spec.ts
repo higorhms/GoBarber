@@ -1,4 +1,5 @@
 import AppError from '@shared/errors/AppError';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import AuthenticateUserService from './AuthenticateUserService';
 import CreateUsersService from './CreateUsersService';
@@ -8,16 +9,22 @@ let fakeHashProvider: FakeHashProvider;
 let usersRepository: FakeUsersRepository;
 let authenticateUser: AuthenticateUserService;
 let usersService: CreateUsersService;
+let fakeCacheProvider: FakeCacheProvider;
 
 describe('AuthenticateUser', () => {
   beforeEach(() => {
     fakeHashProvider = new FakeHashProvider();
     usersRepository = new FakeUsersRepository();
+    fakeCacheProvider = new FakeCacheProvider();
     authenticateUser = new AuthenticateUserService(
       usersRepository,
       fakeHashProvider,
     );
-    usersService = new CreateUsersService(usersRepository, fakeHashProvider);
+    usersService = new CreateUsersService(
+      usersRepository,
+      fakeHashProvider,
+      fakeCacheProvider,
+    );
   });
 
   it('should be able to authenticate', async () => {

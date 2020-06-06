@@ -41,7 +41,8 @@ class CreateSessionsService {
 
     delete user.password;
 
-    const { secret, expiresIn } = authConfig.jwt;
+    const { expiresIn } = authConfig.jwt;
+    const { secret } = authConfig.jwt;
 
     const token = sign({}, secret, {
       subject: user.id,
