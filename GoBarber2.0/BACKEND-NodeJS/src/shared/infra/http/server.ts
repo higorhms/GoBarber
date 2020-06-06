@@ -11,17 +11,19 @@ import '../typeorm/index';
 
 import globalErrorsHandlerMiddleware from '@shared/infra/http/middlewares/GlobalErrorsHandlerMiddleware';
 import multerConfig from '@config/upload';
+import rateLimiter from './middlewares/RateLimiterMiddleware';
 
 const server = express();
 
+server.use(rateLimiter);
 server.use(cors());
 server.use(express.json());
 server.use('/files', express.static(multerConfig.uploadsFolder));
 server.use(routes);
+
 server.use(errors());
 
 server.use(globalErrorsHandlerMiddleware);
-
 server.listen(3333, () => {
   console.log('Server started on port 3333');
 });
