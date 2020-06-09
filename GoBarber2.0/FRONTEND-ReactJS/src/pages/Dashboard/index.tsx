@@ -4,6 +4,7 @@ import { isToday, format, parseISO, isAfter } from 'date-fns';
 import ptBr from 'date-fns/locale/pt-BR';
 
 import DayPicker, { DayModifiers } from 'react-day-picker';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
 import 'react-day-picker/lib/style.css';
 
@@ -47,7 +48,7 @@ const Dashboard: React.FC = () => {
   >([]);
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
-    if (modifiers.available) {
+    if (modifiers.available && !modifiers.disabled) {
       setSelectedDate(day);
     }
   }, []);
@@ -141,7 +142,9 @@ const Dashboard: React.FC = () => {
             <img src={user.avatar_url} alt={user.name} />
             <div>
               <span>Bem-vindo,</span>
-              <strong>{user.name}</strong>
+              <Link to="/profile">
+                <strong>{user.name}</strong>
+              </Link>
             </div>
           </Profile>
           <button type="button" onClick={signOut}>
