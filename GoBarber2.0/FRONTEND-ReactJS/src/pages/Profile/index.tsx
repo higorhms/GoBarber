@@ -17,7 +17,9 @@ import { useAuth } from '../../hooks/AuthContext';
 interface UserData {
   name: string;
   email: string;
+  old_password: string;
   password: string;
+  password_confirmation: string;
 }
 
 const Profile: React.FC = () => {
@@ -34,19 +36,55 @@ const Profile: React.FC = () => {
         const schema = Yup.object().shape({
           name: Yup.string().required('Name is required'),
           email: Yup.string().required('Valid e-mail is required').email(),
-          password: Yup.string().min(6, 'Min 6 characters'),
+          old_password: Yup.string(),
+          password: Yup.string().when('old_password', {
+            is: (val) => !!val.length,
+            then: Yup.string().required('Campo obrigatorio'),
+            otherwise: Yup.string(),
+          }),
+          password_onfirmation: Yup.string()
+            .when('old_password', {
+              is: (val) => !!val.length,
+              then: Yup.string().required('Campo obrigatorio'),
+              otherwise: Yup.string(),
+            })
+            .oneOf([Yup.ref('password'), null], 'Passwords must match'),
         });
 
         await schema.validate(data, { abortEarly: false });
 
-        await api.post('/users', data);
+        const {
+          email,
+          name,
+          old_password,
+          password,
+          password_confirmation,
+        } = data;
+
+        const formData = {
+          name,
+          email,
+          ...(data.old_password
+            ? {
+                old_password,
+                password,
+                password_confirmation,
+              }
+            : {}),
+        };
+
+        await api.put('/profile', formData).then((response) => {
+          updateUser(response.data);
+        });
+
+        history.push('/dashboard');
 
         addToast({
           type: 'success',
-          title: 'Conta criada com sucesso',
+          title: 'Perfil atualizado',
+          description:
+            'Suas informações do perfil foram atualizadas com sucesso',
         });
-
-        history.push('/');
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
