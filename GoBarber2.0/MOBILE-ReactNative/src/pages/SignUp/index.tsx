@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  TextInput,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
@@ -20,6 +21,8 @@ import logoImg from '../../assets/logo.png';
 const SignUp: React.FC = () => {
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
+  const passwordInputRef = useRef<TextInput>(null);
+  const emailInputRef = useRef<TextInput>(null);
 
   return (
     <>
@@ -40,9 +43,41 @@ const SignUp: React.FC = () => {
             </View>
 
             <Form ref={formRef} onSubmit={() => {}}>
-              <Input name="name" icon="user" placeholder="Nome" />
-              <Input name="email" icon="mail" placeholder="E-mail" />
-              <Input name="password" icon="lock" placeholder="Senha" />
+              <Input
+                name="name"
+                icon="user"
+                placeholder="Nome"
+                autoCapitalize="words"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  emailInputRef.current?.focus();
+                }}
+              />
+              <Input
+                name="email"
+                icon="mail"
+                placeholder="E-mail"
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                returnKeyType="next"
+                ref={emailInputRef}
+                onSubmitEditing={() => {
+                  passwordInputRef.current?.focus();
+                }}
+              />
+              <Input
+                name="password"
+                icon="lock"
+                placeholder="Senha"
+                secureTextEntry
+                textContentType="newPassword"
+                returnKeyType="send"
+                ref={passwordInputRef}
+                onSubmitEditing={() => {
+                  formRef.current?.submitForm();
+                }}
+              />
               <Button
                 onPress={() => {
                   formRef.current?.submitForm();
