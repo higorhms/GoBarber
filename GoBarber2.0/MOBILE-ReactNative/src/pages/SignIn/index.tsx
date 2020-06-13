@@ -25,9 +25,8 @@ import {
   CreateAccountButton,
   CreateAccountButtonText,
 } from './styles';
-
 import logoImg from '../../assets/logo.png';
-import api from '../../services/api';
+import { useAuth } from '../../hooks/AuthContext';
 
 interface SignInFormData {
   email: string;
@@ -38,28 +37,32 @@ const SignIn: React.FC = () => {
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
+  const { signIn } = useAuth();
 
-  const handleSignIn = useCallback(async (data: SignInFormData) => {
-    formRef.current?.setErrors({});
+  const handleSignIn = useCallback(
+    async (data: SignInFormData) => {
+      formRef.current?.setErrors({});
 
-    try {
-      const schema = Yup.object().shape({
-        email: Yup.string().required('Valid e-mail is required').email(),
-        password: Yup.string().required('Password is required'),
-      });
+      try {
+        const schema = Yup.object().shape({
+          email: Yup.string().required('Valid e-mail is required').email(),
+          password: Yup.string().required('Password is required'),
+        });
 
-      await schema.validate(data, { abortEarly: false });
-      // await signIn({ email: data.email, password: data.password });
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(error);
-        formRef.current?.setErrors(errors);
-        return;
+        await schema.validate(data, { abortEarly: false });
+        signIn({ email: data.email, password: data.password });
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
+          formRef.current?.setErrors(errors);
+          return;
+        }
+
+        Alert.alert('Erro na autenticação', 'Por favor cheque as credenciais');
       }
-
-      Alert.alert('Erro na autenticação', 'Por favor cheque as credenciais');
-    }
-  }, []);
+    },
+    [signIn],
+  );
 
   return (
     <>
