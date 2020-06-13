@@ -17,9 +17,9 @@ import * as Yup from 'yup';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
-
 import logoImg from '../../assets/logo.png';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 interface SignUpFormData {
   name: string;
@@ -33,33 +33,36 @@ const SignUp: React.FC = () => {
   const passwordInputRef = useRef<TextInput>(null);
   const emailInputRef = useRef<TextInput>(null);
 
-  const handleSignUp = useCallback(async (data: SignUpFormData) => {
-    formRef.current?.setErrors({});
+  const handleSignUp = useCallback(
+    async (data: SignUpFormData) => {
+      formRef.current?.setErrors({});
 
-    try {
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Name is required'),
-        email: Yup.string().required('Valid e-mail is required').email(),
-        password: Yup.string().min(6, 'Min 6 characters'),
-      });
+      try {
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Name is required'),
+          email: Yup.string().required('Valid e-mail is required').email(),
+          password: Yup.string().min(6, 'Min 6 characters'),
+        });
 
-      await schema.validate(data, { abortEarly: false });
+        await schema.validate(data, { abortEarly: false });
 
-      // await api.post('/users', data);
-
-      Alert.alert('Sucesso', 'Conta criada com sucesso');
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(error);
-        formRef.current?.setErrors(errors);
-        return;
+        Alert.alert('Sucesso', 'Conta criada com sucesso');
+        await api.post('/users', data);
+        navigation.goBack();
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
+          formRef.current?.setErrors(errors);
+          return;
+        }
+        Alert.alert(
+          'Erro ao criar cadastro',
+          'Por favor verifique seus dados e tente novamente.',
+        );
       }
-      Alert.alert(
-        'Erro ao criar cadastro',
-        'Por favor verifique seus dados e tente novamente.',
-      );
-    }
-  }, []);
+    },
+    [navigation],
+  );
 
   return (
     <>

@@ -27,6 +27,7 @@ import {
 } from './styles';
 
 import logoImg from '../../assets/logo.png';
+import api from '../../services/api';
 
 interface SignInFormData {
   email: string;
