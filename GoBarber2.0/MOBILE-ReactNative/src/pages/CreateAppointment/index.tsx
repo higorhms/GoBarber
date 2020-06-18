@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
+import { Platform } from 'react-native';
 import { useAuth } from '../../hooks/AuthContext';
 import api from '../../services/api';
 
@@ -23,6 +25,8 @@ const CreateAppointment: React.FC = () => {
   const { providerId } = route.params as RouteParams;
   const [providers, setProviders] = useState<Provider[]>([]);
   const [selectedProvider, setSelectedProvider] = useState(providerId);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     api.get('/providers').then((response) => {
@@ -34,11 +38,27 @@ const CreateAppointment: React.FC = () => {
     goBack();
   }, [goBack]);
 
+  const handleToggleDatePicker = useCallback(() => {
+    setShowDatePicker((lastState) => !lastState);
+  }, [setShowDatePicker]);
+
   const handleSelectProvider = useCallback(
     (id: string) => {
       setSelectedProvider(id);
     },
     [setSelectedProvider],
+  );
+
+  const handleDateChanged = useCallback(
+    (event: any, date: Date | undefined) => {
+      if (Platform.OS === 'android') {
+        setShowDatePicker(false);
+      }
+      if (date) {
+        setSelectedDate(date);
+      }
+    },
+    [],
   );
 
   return (
@@ -77,6 +97,23 @@ const CreateAppointment: React.FC = () => {
           )}
         />
       </S.ProvidersListContainer>
+      <S.Calendar>
+        <S.Title>Escola a data</S.Title>
+        <S.OpenDatePickerButton onPress={handleToggleDatePicker}>
+          <S.OpenDatePickerButtonText>
+            Selecionar outra data
+          </S.OpenDatePickerButtonText>
+        </S.OpenDatePickerButton>
+        {showDatePicker && (
+          <DateTimePicker
+            mode="date"
+            display="calendar"
+            textColor="#f4ede8"
+            onChange={handleDateChanged}
+            value={selectedDate}
+          />
+        )}
+      </S.Calendar>
     </S.Container>
   );
 };
