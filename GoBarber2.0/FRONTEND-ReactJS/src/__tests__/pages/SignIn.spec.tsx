@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, wait } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import SignIn from '../../pages/SignIn';
 
@@ -50,7 +50,7 @@ describe('SignIn Page', () => {
     fireEvent.change(passwordField, { target: { value: '123456' } });
     fireEvent.click(buttonElement);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(mockedPushFunction).toHaveBeenCalledWith('/dashboard');
     });
   });
@@ -66,7 +66,7 @@ describe('SignIn Page', () => {
     fireEvent.change(passwordField, { target: { value: '123456' } });
     fireEvent.click(buttonElement);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(mockedPushFunction).not.toHaveBeenCalled();
     });
   });
@@ -86,7 +86,7 @@ describe('SignIn Page', () => {
     fireEvent.change(passwordField, { target: { value: '123456' } });
     fireEvent.click(buttonElement);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(mockedAddToast).toHaveBeenCalled();
     });
   });
