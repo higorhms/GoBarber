@@ -1,5 +1,6 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import MockAdapter from 'axios-mock-adapter';
+
 import { useAuth, AuthProvider } from '../../hooks/AuthContext';
 import api from '../../services/api';
 
@@ -20,7 +21,7 @@ describe('Auth hook', () => {
 
     mockedApi.onPost('sessions').reply(200, apiResponse);
 
-    const { result, waitForNextUpdate } = renderHook(() => useAuth(), {
+    const { result, waitForNextUpdate, wait } = renderHook(() => useAuth(), {
       wrapper: AuthProvider,
     });
 
@@ -28,6 +29,8 @@ describe('Auth hook', () => {
       email: 'gobarber@example.com',
       password: '123456',
     });
+
+    await waitForNextUpdate();
 
     expect(storageSpy).toHaveBeenCalledWith(
       '@Gobarber:token',
@@ -38,8 +41,85 @@ describe('Auth hook', () => {
       JSON.stringify(apiResponse.user),
     );
 
-    await waitForNextUpdate();
+    expect(result.current.user.email).toBe('gobarber@example.com');
+  });
 
-    expect(result.current.user.email).toEqual('gobarber@example.com');
+  it('Should be able recover the stored data when auth inits', async () => {
+    jest.spyOn(Storage.prototype, 'getItem').mockImplementation((key) => {
+      switch (key) {
+        case '@Gobarber:token':
+          return 'token-example';
+        case '@Gobarber:user':
+          return JSON.stringify({
+            id: 'uuid',
+            name: 'Gobarber',
+            email: 'gobarber@example.com',
+          });
+        default:
+          return null;
+      }
+    });
+
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
+    });
+
+    expect(result.current.user.email).toBe('gobarber@example.com');
+  });
+
+  it('Should be able to sign out', async () => {
+    jest.spyOn(Storage.prototype, 'getItem').mockImplementation((key) => {
+      switch (key) {
+        case '@Gobarber:token':
+          return 'token-example';
+        case '@Gobarber:user':
+          return JSON.stringify({
+            id: 'uuid',
+            name: 'Gobarber',
+            email: 'gobarber@example.com',
+          });
+        default:
+          return null;
+      }
+    });
+
+    const storageSpy = jest.spyOn(Storage.prototype, 'removeItem');
+
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
+    });
+
+    act(() => {
+      result.current.signOut();
+    });
+
+    expect(result.current.user).toBeUndefined();
+    expect(storageSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('Should be able to update the stored user', async () => {
+    const user = {
+      id: 'uuid',
+      name: 'Gobarber',
+      email: 'gobarber@example.com',
+      avatar_url: 'test-image.jpg',
+    };
+
+    const storageSpy = jest.spyOn(Storage.prototype, 'setItem');
+
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
+    });
+
+    act(() => {
+      result.current.updateUser(user);
+    });
+
+    expect(storageSpy).toHaveBeenCalledWith(
+      '@Gobarber:user',
+      JSON.stringify(user),
+    );
+
+    expect(result.current.user.email).toBe('gobarber@example.com');
   });
 });
