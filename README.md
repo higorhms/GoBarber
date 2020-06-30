@@ -2,8 +2,23 @@
 	<img alt="GoBarber" src=".github/logo.svg" width="200px" />
 </h1>
 
-[![All Contributors](https://img.shields.io/badge/All_contributors-1-green.svg?style=flat-square)](./CONTRIBUTORS.md)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+<p align="center">		 
+
+  <img alt="Language" src="https://img.shields.io/github/languages/top/higorhms/GoBarber?style=for-the-badge">
+	
+  <a href="https://www.linkedin.com/in/higormartinsdasilva/" target="_blank">
+    <img alt="Made by Higor Martins" src="https://img.shields.io/badge/made%20by-Higor_martins-%2304D361?style=for-the-badge">
+  </a>
+
+  <a href="https://github.com/higorhms/GoBarber" target="_blank">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/higorhms/GoBarber?style=for-the-badge">
+  </a>
+
+   <a href="https://github.com/higorhms/GoBarber/stargazers" target="_blank">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/higorhms/GoBarber?style=for-the-badge">
+  </a>
+</p>
+
 <img alt="Mockup" src="https://res.cloudinary.com/eliasgcf/image/upload/v1587509596/GoBarber/mockup_ocggit.png">
 
 ## 💥 Gobarber | Gostack 11
